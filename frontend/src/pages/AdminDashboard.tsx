@@ -25,10 +25,9 @@ function AdminDashboard({ auth, onLogout }: Props) {
     'Authorization': `Bearer ${auth.accessToken}`
   };
 
-  // Users list fetch చేయండి
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/users', { headers });
+      const res = await fetch('/api/users', { headers });
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -40,10 +39,9 @@ function AdminDashboard({ auth, onLogout }: Props) {
     fetchUsers();
   }, []);
 
-  // User create చేయండి
   const handleCreate = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/register', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers,
         body: JSON.stringify(newUser)
@@ -61,11 +59,10 @@ function AdminDashboard({ auth, onLogout }: Props) {
     }
   };
 
-  // User update చేయండి
   const handleUpdate = async () => {
     if (!editUser) return;
     try {
-      const res = await fetch(`http://localhost:3000/api/users/${editUser.id}`, {
+      const res = await fetch(`/api/users/${editUser.id}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify({ name: editUser.name, email: editUser.email })
@@ -79,11 +76,10 @@ function AdminDashboard({ auth, onLogout }: Props) {
     }
   };
 
-  // User delete చేయండి
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     try {
-      await fetch(`http://localhost:3000/api/users/${id}`, {
+      await fetch(`/api/users/${id}`, {
         method: 'DELETE',
         headers
       });
@@ -95,7 +91,6 @@ function AdminDashboard({ auth, onLogout }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-blue-600">Admin Dashboard</h1>
@@ -113,7 +108,6 @@ function AdminDashboard({ auth, onLogout }: Props) {
         <p className="text-red-500 mb-4">{error}</p>
       )}
 
-      {/* Create User Button */}
       <button
         onClick={() => setShowCreateForm(!showCreateForm)}
         className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mb-6"
@@ -121,7 +115,6 @@ function AdminDashboard({ auth, onLogout }: Props) {
         + Create New User
       </button>
 
-      {/* Create User Form */}
       {showCreateForm && (
         <div className="bg-white p-6 rounded-xl shadow mb-6">
           <h2 className="text-xl font-bold mb-4">Create New User</h2>
@@ -174,7 +167,6 @@ function AdminDashboard({ auth, onLogout }: Props) {
         </div>
       )}
 
-      {/* Edit User Form */}
       {editUser && (
         <div className="bg-white p-6 rounded-xl shadow mb-6">
           <h2 className="text-xl font-bold mb-4">Edit User</h2>
@@ -209,7 +201,6 @@ function AdminDashboard({ auth, onLogout }: Props) {
         </div>
       )}
 
-      {/* Users Table */}
       <div className="bg-white rounded-xl shadow overflow-hidden">
         <table className="w-full">
           <thead className="bg-blue-600 text-white">
