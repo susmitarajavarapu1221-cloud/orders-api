@@ -33,6 +33,9 @@ function App() {
   if (auth.user.role === 'ADMIN') {
     return <AdminDashboard auth={auth} onLogout={handleLogout} />;
   }
+  if (auth.user.role === 'ADMIN' || auth.user.role === 'MANAGER') {
+    return <AdminDashboard auth={auth} onLogout={handleLogout} />;
+}
 
   return <UserDashboard auth={auth} onLogout={handleLogout} />;
 }

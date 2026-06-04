@@ -93,7 +93,9 @@ function AdminDashboard({ auth, onLogout }: Props) {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-blue-600">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold text-blue-600">
+            {auth.user.role === 'ADMIN' ? 'Admin Dashboard' : 'Manager Dashboard'}
+          </h1>
           <p className="text-gray-500">Welcome, {auth.user.name}!</p>
         </div>
         <button
@@ -108,14 +110,16 @@ function AdminDashboard({ auth, onLogout }: Props) {
         <p className="text-red-500 mb-4">{error}</p>
       )}
 
-      <button
-        onClick={() => setShowCreateForm(!showCreateForm)}
-        className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mb-6"
-      >
-        + Create New User
-      </button>
+      {auth.user.role === 'ADMIN' && (
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mb-6"
+        >
+          + Create New User
+        </button>
+      )}
 
-      {showCreateForm && (
+      {showCreateForm && auth.user.role === 'ADMIN' && (
         <div className="bg-white p-6 rounded-xl shadow mb-6">
           <h2 className="text-xl font-bold mb-4">Create New User</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -234,12 +238,14 @@ function AdminDashboard({ auth, onLogout }: Props) {
                   >
                     Edit
                   </button>
-                  <button
-                    onClick={() => handleDelete(user.id)}
-                    className="bg-red-500 text-white px-4 py-1 rounded-lg hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
+                  {auth.user.role === 'ADMIN' && (
+                    <button
+                      onClick={() => handleDelete(user.id)}
+                      className="bg-red-500 text-white px-4 py-1 rounded-lg hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
