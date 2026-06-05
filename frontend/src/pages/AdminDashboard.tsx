@@ -4,6 +4,7 @@ import { AuthState } from '../App';
 interface Props {
   auth: AuthState;
   onLogout: () => void;
+  onChangePassword: () => void;
 }
 
 interface User {
@@ -13,7 +14,7 @@ interface User {
   role: string;
 }
 
-function AdminDashboard({ auth, onLogout }: Props) {
+function AdminDashboard({ auth, onLogout, onChangePassword }: Props) {
   const [users, setUsers] = useState<User[]>([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
@@ -98,12 +99,21 @@ function AdminDashboard({ auth, onLogout }: Props) {
           </h1>
           <p className="text-gray-500">Welcome, {auth.user.name}!</p>
         </div>
-        <button
-          onClick={onLogout}
-          className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600"
-        >
-          Logout
-        </button>
+        <div className="flex gap-2">
+  <button
+    onClick={onChangePassword}
+    className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600"
+  >
+    Change Password
+  </button>
+
+  <button
+    onClick={onLogout}
+    className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600"
+  >
+    Logout
+  </button>
+</div>
       </div>
 
       {error && (
